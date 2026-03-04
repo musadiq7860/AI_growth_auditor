@@ -1,61 +1,68 @@
-AI Growth Audit n8n Workflow
-This repository contains the AI Growth Audit n8n workflow, an automated lead generation and consulting tool. It uses AI to analyze a business's core challenges and instantly provide a custom, 3-step growth strategy.
+AI Growth Audit
+This repository contains an n8n workflow designed to automate lead generation by providing instant, AI-driven business audits. It captures lead information through a form, scrapes their website, and uses an LLM to generate a customized 3-step growth strategy.
 
-🚀 How It Works
-The workflow follows a seamless path from lead capture to strategy delivery:
+How It Works
+The workflow automates the following steps:
 
-Lead Capture: A built-in n8n form collects the user's name, business email, website URL, and their biggest growth challenge.
+Lead Capture: A public-facing n8n form collects the user's name, business email, website URL, and their primary growth bottleneck.
 
-Website Analysis: The workflow uses an HTTP request to scrape data from the provided company website.
+Website Scraping: The workflow performs an HTTP request to the provided URL to gather context about the business.
 
-AI Strategy Generation: Utilizing a Basic LLM Chain powered by Google Gemini, the system analyzes the business data and the user's specific challenge to generate a professional 3-step strategy.
+AI Analysis: A Basic LLM Chain (using Google Gemini) processes the website data and the user's specific challenge.
 
-CRM Update: The lead's information and the generated AI strategy are automatically appended to a Google Sheet ("AI Lead Generation CRM") for tracking.
+Strategy Generation: The AI generates a professional, 3-step actionable growth strategy tailored to the lead's needs.
 
-Automated Response: The custom audit is sent directly to the user via a messaging node (e.g., WhatsApp or Email).
+CRM Integration: Lead details and the generated strategy are automatically appended to a Google Sheet (acting as a CRM).
 
-🛠️ Components
-Form Trigger: "Get Your Free AI-Powered Growth Audit".
+Instant Delivery: The strategy is sent directly to the user (via Messaging/Email nodes).
 
-AI Model: Google Gemini (via LangChain integration).
+Features
+Automated Lead Magnet: Provides immediate value to potential clients.
 
-Scraper: HTTP Request node for real-time website data collection.
+AI-Powered Insights: Uses Google Gemini for high-quality, contextual advice.
 
-Storage: Google Sheets for lead management.
+Zero-Manual Entry: Automatically populates your CRM with qualified lead data.
 
-📋 Prerequisites
-To use this workflow, you will need:
+Customizable: Easily swap the LLM or the CRM destination (e.g., Airtable, HubSpot).
 
-An n8n instance (self-hosted or Cloud).
+Prerequisites
+n8n (Cloud or self-hosted)
 
-Google Gemini API credentials.
+Google Gemini API Key (for the AI analysis)
 
-A Google Sheets document to act as your CRM.
+Google Sheets API (for the CRM component)
 
-(Optional) Messaging credentials for sending the final report.
+Installation
+Download the AI Growth Audit.json file.
 
-⚙️ Installation
-Download the AI Growth Audit.json file from this repository.
+In your n8n dashboard, create a new workflow.
 
-Open your n8n editor.
-
-Click on the Workflow Menu (top right) and select Import from File.
+Click the menu (three dots) and select Import from File.
 
 Select the AI Growth Audit.json file.
 
-Configure your credentials for:
+Configure the credentials for the following nodes:
 
-Google Gemini (PaLM) API.
+Google Gemini (PaLM) API: For the LLM nodes.
 
-Google Sheets (Map the documentId to your own spreadsheet).
+Google Sheets: For the "Append row in sheet" node.
+
+Update the Spreadsheet ID in the Google Sheets node to match your own sheet.
 
 Activate the workflow.
 
-📝 Configuration Note
-The LLM is configured with strict formatting rules to ensure a professional output:
+Usage
+Once activated, n8n will provide a Form URL. You can share this link directly with leads or embed it on your website. When a user submits the form, the automation triggers instantly.
 
-Exactly 3 steps.
+Node Structure
+Form Trigger: "Get Your Free AI-Powered Growth Audit"
 
-No markdown symbols like asterisks.
+Wait Node: Ensures stability between triggers and requests.
 
-Double line breaks between steps for readability.
+HTTP Request: Scrapes the lead's website content.
+
+Basic LLM Chain: The brain of the operation, using LangChain.
+
+Merge Node: Combines user inputs with AI outputs.
+
+Google Sheets Node: Logs all data for follow-up.
