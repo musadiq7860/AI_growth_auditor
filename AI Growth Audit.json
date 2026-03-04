@@ -1,0 +1,362 @@
+{
+  "name": "AI Growth Audit",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Get Your Free AI-Powered Growth Audit",
+        "formDescription": "Tell us about your business and your biggest bottleneck. Our AI consultant will analyze your current challenge and instantly email you a custom, 3-step actionable growth strategy.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "Enter Your Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Business Email",
+              "fieldType": "email",
+              "placeholder": "you@company.com (Where we will send your audit)",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Company Website URL",
+              "placeholder": "https://www.yourwebsite.com",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "What is your biggest growth challenge right now?",
+              "placeholder": "Be specific! (e.g., \"We get website traffic but no one fills out our contact form,\" or \"Our ad costs are too high.\")",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        -816,
+        -288
+      ],
+      "id": "03770d4f-dc4c-4f1d-9bd1-746e56659991",
+      "name": "On form submission",
+      "webhookId": "77f01ac4-72d4-465b-84e4-0f79c3857ad0"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Client Name: {{ $('On form submission').item.json[\"Name\"] }}\nCore Challenge: {{ $('On form submission').item.json[\"What is your biggest growth challenge right now?\"] }}\n\nHere is the raw data scraped from their website URL:\n{{ $json[\"data\"] }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are an elite Consultant. Your goal is to provide a highly professional, 3-step strategy.\n\nSTRICT FORMATTING RULES:\n\nUse EXACTLY 3 steps.\n\nStart each step with a clear title like \"Step 1: [Title]\" followed by a colon.\n\nDO NOT use asterisks (*) or any other markdown symbols.\n\nAdd a double line break (press Enter twice) between each of the 3 steps so they are separated by white space.\n\nKeep the tone expert and direct. No long introductions.\n\n\"You must use two 'new line' characters (double line breaks) between each step.\"\n\n\"Each step must be its own independent paragraph.\"\n\n\"Ensure there is a clear, empty line of white space between the end of Step 1 and the beginning of Step 2, and the same for Step 3.\""
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        -352,
+        -48
+      ],
+      "id": "714828d8-5b0a-4356-aea6-4333c92ba7a0",
+      "name": "Basic LLM Chain",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        144
+      ],
+      "id": "740c8788-f495-4835-9fbe-6712aa94ae9b",
+      "name": "Google Gemini Chat Model",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "maxTries": 5,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "95VlnOEgHUPNxJ6t",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        0,
+        -272
+      ],
+      "id": "a35f91c8-2979-4c6d-a689-177bcaf5d057",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "17AHPXOdFFV7gygtGWjbP59Yc0yKJcrlmB0SMTQ9KnTw",
+          "mode": "list",
+          "cachedResultName": "AI Lead Generation CRM",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17AHPXOdFFV7gygtGWjbP59Yc0yKJcrlmB0SMTQ9KnTw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17AHPXOdFFV7gygtGWjbP59Yc0yKJcrlmB0SMTQ9KnTw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date Submitted": "={{ $json.submittedAt }}",
+            "Lead Name": "={{ $json.Name }}",
+            "Email Address": "={{ $json['Business Email'] }}",
+            "Company Website": "={{ $json['Company Website URL'] }}",
+            "The Core Challenge": "={{ $json['What is your biggest growth challenge right now?'] }}",
+            "The AI Strategy": "={{ $json.text }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date Submitted",
+              "displayName": "Date Submitted",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lead Name",
+              "displayName": "Lead Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email Address",
+              "displayName": "Email Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Company Website",
+              "displayName": "Company Website",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "The Core Challenge",
+              "displayName": "The Core Challenge",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "The AI Strategy",
+              "displayName": "The AI Strategy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        304,
+        -272
+      ],
+      "id": "04ab1328-43f1-4cb1-ac33-c10480c5c350",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "JqLwogIOO6K9wAWX",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json['Business Email'] }}",
+        "subject": "=Your Custom AI Analysis is Ready, {{ $json.Name }}",
+        "message": "=Hi {{ $json.Name }},\n\n\nI've analyzed your submission and the link you provided. Here is your custom 3-step breakdown:\n\n\n{{ $json.text }}\n\n\nBest regards,\nMusadiq's AI Assistant\n\n",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        320,
+        -16
+      ],
+      "id": "2cce300c-3b95-433c-944a-5df81a5b4275",
+      "name": "Send a message",
+      "webhookId": "f92bda5d-c481-4d6b-a0cf-ff5910d194a4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TcwZOcrDYeaxSDmo",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -640,
+        -288
+      ],
+      "id": "6167fa01-5315-4cbf-a462-bfb6110c014d",
+      "name": "Wait",
+      "webhookId": "0cb5933b-f5b9-48b0-92e2-8b510460f620"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['Company Website URL'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -576,
+        -48
+      ],
+      "id": "88496216-73e6-477a-b4ce-2009155c3554",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "155c355c-db97-4e84-8551-a2c8700e0c25",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1dc9d47213a8401d66a9b05c3f4ac5d788be345eaa3fd98bd480d0994a87e59b"
+  },
+  "id": "I9gLochBqR7mCLDU",
+  "tags": []
+}
