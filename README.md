@@ -4,7 +4,7 @@ This repository contains an n8n workflow designed to automate lead generation by
 ## How It Works
 The workflow automates the following steps:
 
-## Lead Capture: A public-facing n8n form collects the user's name, business email, website URL, and their primary growth bottleneck.
+# Lead Capture: A public-facing n8n form collects the user's name, business email, website URL, and their primary growth bottleneck.
 
 ## Website Scraping: The workflow performs an HTTP request to the provided URL to gather context about the business.
 
