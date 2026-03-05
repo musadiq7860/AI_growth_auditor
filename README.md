@@ -1,23 +1,23 @@
-AI Growth Audit
+## AI Growth Audit
 This repository contains an n8n workflow designed to automate lead generation by providing instant, AI-driven business audits. It captures lead information through a form, scrapes their website, and uses an LLM to generate a customized 3-step growth strategy.
 
-How It Works
+## How It Works
 The workflow automates the following steps:
 
-Lead Capture: A public-facing n8n form collects the user's name, business email, website URL, and their primary growth bottleneck.
+## Lead Capture: A public-facing n8n form collects the user's name, business email, website URL, and their primary growth bottleneck.
 
-Website Scraping: The workflow performs an HTTP request to the provided URL to gather context about the business.
+## Website Scraping: The workflow performs an HTTP request to the provided URL to gather context about the business.
 
-AI Analysis: A Basic LLM Chain (using Google Gemini) processes the website data and the user's specific challenge.
+## AI Analysis: A Basic LLM Chain (using Google Gemini) processes the website data and the user's specific challenge.
 
-Strategy Generation: The AI generates a professional, 3-step actionable growth strategy tailored to the lead's needs.
+## Strategy Generation: The AI generates a professional, 3-step actionable growth strategy tailored to the lead's needs.
 
-CRM Integration: Lead details and the generated strategy are automatically appended to a Google Sheet (acting as a CRM).
+## CRM Integration: Lead details and the generated strategy are automatically appended to a Google Sheet (acting as a CRM).
 
-Instant Delivery: The strategy is sent directly to the user (via Messaging/Email nodes).
+## Instant Delivery: The strategy is sent directly to the user (via Messaging/Email nodes).
 
-Features
-Automated Lead Magnet: Provides immediate value to potential clients.
+## Features
+## Automated Lead Magnet: Provides immediate value to potential clients.
 
 AI-Powered Insights: Uses Google Gemini for high-quality, contextual advice.
 
