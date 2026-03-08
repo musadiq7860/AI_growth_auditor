@@ -1,4 +1,4 @@
-## AI Growth Audit
+# AI Growth Audit
 This repository contains an n8n workflow designed to automate lead generation by providing instant, AI-driven business audits. It captures lead information through a form, scrapes their website, and uses an LLM to generate a customized 3-step growth strategy.
 
 ## How It Works
